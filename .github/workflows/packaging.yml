@@ -64,6 +64,7 @@ jobs:
       fail-fast: false
       matrix:
         debian:
+          - oldstable
           - stable
           - testing
     runs-on: ubuntu-latest
@@ -110,11 +111,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian:
-          - stable
-          - testing
+        include:
+          - debian: oldstable-backports
+            codename: bookworm
+          - debian: stable
+            codename: bookworm
     runs-on: ubuntu-latest
-    container: debian:${{ matrix.debian }}
+    container: igwn/builder:${{ matrix.codename }}
     env:
       DSC: "requests-scitokens_*.dsc"
     steps:
@@ -177,11 +180,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        debian:
-          - stable
-          - testing
+        include:
+          - debian: oldstable-backports
+            codename: bookworm
+          - debian: stable
+            codename: bookworm
     runs-on: ubuntu-latest
-    container: debian:${{ matrix.debian }}
+    container: igwn/base:${{ matrix.codename }}
     steps:
       - name: Download binary packages
         uses: actions/download-artifact@v3
@@ -219,7 +224,7 @@ jobs:
           ;
 
       - name: Lintian
-        run: lintian --color=auto --fail-on warning --allow-root --pedantic *.changes
+        run: lintian --color=auto --fail-on warning,error --allow-root --pedantic *.changes
 
   # -- RHEL -----------------
 
