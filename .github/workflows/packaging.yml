@@ -300,7 +300,7 @@ jobs:
     runs-on: ubuntu-latest
     container: ${{ matrix.container }}
     env:
-      SRPM: "requests-scitokens-*.src.rpm"
+      SRPM: "python-requests-scitokens-*.src.rpm"
     steps:
       - name: Download SRPM
         uses: actions/download-artifact@v3
