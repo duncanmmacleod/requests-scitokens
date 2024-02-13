@@ -41,8 +41,8 @@ for the python3-requests HTTP library.
 
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary: %{summary}
-Requires: python%{python3_pkgversion}-requires >= 2.20.0
-Requires: python%{python3_pkgversion}-scitokens >= 1.7.4
+Requires: python%{python3_pkgversion}dist(requests) >= 2.20.0
+Requires: python%{python3_pkgversion}dist(scitokens) >= 1.7.4
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 %description -n python%{python3_pkgversion}-%{srcname}
 requests-scitokens adds optional SciTokens authorisation support
@@ -68,8 +68,8 @@ url = %{url}
 packages = find:
 python_requires = >=3.6
 install_requires =
-	requests
-	scitokens
+	requests >= 2.20.0
+	scitokens >= 1.7.4
 EOF
 cat > setup.py <<EOF
 from setuptools import setup
