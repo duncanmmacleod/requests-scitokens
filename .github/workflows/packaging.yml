@@ -64,7 +64,6 @@ jobs:
       fail-fast: false
       matrix:
         debian:
-          - oldstable
           - stable
           - testing
     runs-on: ubuntu-latest
@@ -234,10 +233,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dist: lscsoft
-            name: LSCSoft
-            version: EL7
-            container: igwn/base:el7-testing
           - dist: rockylinux
             name: Rocky Linux
             version: 8
@@ -259,10 +254,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: tarball
-
-      - name: Configure DNF
-        if: matrix.dist == 'lscsoft'
-        run: ln -s /usr/bin/yum /usr/bin/dnf
 
       - name: Configure EPEL
         if: matrix.dist != 'fedora'
@@ -316,10 +307,6 @@ jobs:
         with:
           name: srpm-${{ matrix.dist }}-${{ matrix.version }}
 
-      - name: Configure DNF
-        if: matrix.dist == 'lscsoft'
-        run: ln -s /usr/bin/yum /usr/bin/dnf
-
       - name: Enable CRB (Rocky Linux >=9)
         if: matrix.dist == 'rockylinux' && matrix.version >= 9
         run: |
@@ -333,7 +320,6 @@ jobs:
           dnf -y install epel-rpm-macros
 
       - name: Install build tools
-        if: matrix.dist != 'lscsoft'
         run: |
           dnf -y -q install \
               rpm-build \
@@ -341,20 +327,7 @@ jobs:
           ;
 
       - name: Install build dependencies
-        if: matrix.dist != 'lscsoft'
         run: dnf builddep -y ${SRPM}
-
-      - name: Install build tools (LSCSoft)
-        if: matrix.dist == 'lscsoft'
-        run: |
-          dnf -y -q install \
-              rpm-build \
-              yum-utils \
-          ;
-
-      - name: Install build dependencies (LSCSoft)
-        if: matrix.dist == 'lscsoft'
-        run: yum-builddep -y ${SRPM}
 
       - name: Build binary packages
         run: |
@@ -390,10 +363,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dist: lscsoft
-            name: LSCSoft
-            version: EL7
-            container: igwn/base:el7-testing
           - dist: rockylinux
             name: Rocky Linux
             version: 8
@@ -413,10 +382,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: rpm-${{ matrix.dist }}-${{ matrix.version }}
-
-      - name: Configure DNF
-        if: matrix.dist == 'lscsoft'
-        run: ln -s /usr/bin/yum /usr/bin/dnf
 
       - name: Configure EPEL
         if: matrix.dist != 'fedora'
