@@ -113,7 +113,7 @@ jobs:
       matrix:
         include:
           - debian: oldstable-backports
-            codename: bookworm
+            codename: bullseye-backports
           - debian: stable
             codename: bookworm
     runs-on: ubuntu-latest
@@ -142,7 +142,7 @@ jobs:
         shell: bash -ex {0}
         run: |
           cd src
-          if [[ "${{ matrix.debian }}" == *backports ]]; then BACKPORTS="-t ${{ matrix.codename }}-backports"; fi
+          if [[ "${{ matrix.codename }}" == *backports ]]; then BACKPORTS="-t ${{ matrix.codename }}"; fi
           mk-build-deps \
               --tool "apt-get -y -q ${BACKPORTS} -o Debug::pkgProblemResolver=yes --no-install-recommends" \
               --install \
@@ -182,7 +182,7 @@ jobs:
       matrix:
         include:
           - debian: oldstable-backports
-            codename: bookworm
+            codename: bullseye-backports
           - debian: stable
             codename: bookworm
     runs-on: ubuntu-latest
