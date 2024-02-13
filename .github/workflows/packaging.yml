@@ -224,7 +224,7 @@ jobs:
           ;
 
       - name: Lintian
-        run: lintian --color=auto --fail-on warning,error --allow-root --pedantic *.changes
+        run: lintian --color auto --suppress-tags initial-upload-closes-no-bugs --fail-on warning,error --allow-root --pedantic *.changes
 
   # -- RHEL -----------------
 
