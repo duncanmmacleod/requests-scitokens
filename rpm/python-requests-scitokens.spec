@@ -94,7 +94,7 @@ EOF
 %check
 export PYTHONPATH="%{buildroot}%{python3_sitelib}"
 %python3 -m pip show requests-scitokens
-%pytest -m pytest --verbose -ra --pyargs requests_scitokens
+%pytest --verbose -ra --pyargs requests_scitokens
 
 # -- files ------------------
 
