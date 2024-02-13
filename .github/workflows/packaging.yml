@@ -111,7 +111,6 @@ jobs:
       fail-fast: false
       matrix:
         debian:
-          - oldstable
           - stable
           - testing
     runs-on: ubuntu-latest
@@ -179,7 +178,6 @@ jobs:
       fail-fast: false
       matrix:
         debian:
-          - oldstable
           - stable
           - testing
     runs-on: ubuntu-latest
