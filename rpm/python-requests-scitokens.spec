@@ -30,6 +30,7 @@ BuildRequires: python%{python3_pkgversion}dist(wheel)
 # test requirements
 BuildRequires: python%{python3_pkgversion}dist(pytest)
 BuildRequires: python%{python3_pkgversion}dist(requests) >= 2.20.0
+BuildRequires: python%{python3_pkgversion}dist(requests-mock)
 BuildRequires: python%{python3_pkgversion}dist(scitokens) >= 1.7.4
 
 # -- packages ---------------

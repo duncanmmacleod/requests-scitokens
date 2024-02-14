@@ -25,6 +25,13 @@ def _www_authenticate_bearer_params(response):
     """Return the WWW-Authenticate Bearer response auth-params if found.
 
     See RFC 6750, section 3.
+
+    Returns
+    -------
+    params : `False`, `dict`
+        Either `False` if the ``www-authenticate`` header is not present,
+        or doesn't challenege Bearer auth, or a `dict` (possible empty)
+        of params to use in the Bearer challenge.
     """
     try:
         wwwauth = response.headers["www-authenticate"]
@@ -32,8 +39,17 @@ def _www_authenticate_bearer_params(response):
         return False
 
     for authopt in parse_list_header(wwwauth):
-        if authopt.startswith("Bearer "):
+        # if header is just 'Bearer', then return empty dict
+        if authopt == "Bearer":
+            return {}
+        # otherwise if header starts with Bearer and some whitespace
+        # extract the params  -- this just avoids falsely matching
+        # something like 'Bearer2', which we don't understand.
+        if authopt.startswith("Bearer "):  # with params
             return parse_dict_header(authopt[6:])
+
+    # no match
+    return False
 
 
 class HTTPSciTokenAuth(_AuthBase):
@@ -184,10 +200,10 @@ class HTTPSciTokenAuth(_AuthBase):
         """Handle 401 response.
         """
         params = _www_authenticate_bearer_params(response)
-        kwargs.update(params)
-        if params:
+        if isinstance(params, dict):
+            kwargs.update(params)
             return self.authenticate_bearer(response, **kwargs)
-        return
+        return response
 
     def handle_response(self, response, **kwargs):
         """Attempt to handle a response that asks for Bearer auth.
@@ -214,5 +230,8 @@ class HTTPSciTokenAuth(_AuthBase):
         # if we ended up with a header, store it in the request.
         if token:
             request.headers["Authorization"] = self._auth_header_str(token)
+
+        # register our reponse handler
+        request.register_hook("response", self.handle_response)
 
         return request

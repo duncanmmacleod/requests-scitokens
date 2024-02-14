@@ -80,3 +80,11 @@ source = [ "requests_scitokens" ]
 [tool.coverage.report]
 # print report with one decimal point
 precision = 1
+
+# -- pytest
+
+[tool.pytest.ini_options]
+addopts = "-r a"
+filterwarnings = [
+  "error",
+]
