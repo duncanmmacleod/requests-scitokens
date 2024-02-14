@@ -17,6 +17,21 @@ import pytest
 
 from scitokens import SciToken
 
+
+# -- old pytest fixtures --------------
+
+if pytest.__version__ < "3.9.0":  # RL8
+    from pathlib import Path
+    from tempfile import TemporaryDirectory
+
+    @pytest.fixture
+    def tmp_path():
+        with TemporaryDirectory() as tmpdir:
+            yield Path(tmpdir)
+
+
+# -- SciTokens fixtures ---------------
+
 ISSUER = "local"
 _SCOPE_PATH = "/igwn_auth_utils"
 READ_AUDIENCE = "igwn_auth_utils"
