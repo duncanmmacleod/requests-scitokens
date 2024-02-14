@@ -14,3 +14,4 @@ Requests plugin that simplifies using SciTokens in HTTP requests.
 [![Build status](https://github.com/duncanmmacleod/requests-scitokens/actions/workflows/python.yml/badge.svg?branch=main)](https://github.com/duncanmmacleod/requests-scitokens/actions?query=branch%3Amain)
 [![Build status](https://github.com/duncanmmacleod/requests-scitokens/actions/workflows/packaging.yml/badge.svg?branch=main)](https://github.com/duncanmmacleod/requests-scitokens/actions?query=branch%3Amain)
 [![Coverage status](https://codecov.io/gh/duncanmmacleod/requests-scitokens/graph/badge.svg?token=K2d77WxEkn)](https://codecov.io/gh/duncanmmacleod/requests-scitokens)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3f159a42c287914196e9/maintainability)](https://codeclimate.com/github/duncanmmacleod/requests-scitokens/maintainability)
