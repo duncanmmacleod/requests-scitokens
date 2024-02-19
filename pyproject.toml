@@ -46,6 +46,12 @@ test = [
   "pytest-cov >=2.4.0",
   "requests-mock",
 ]
+# documentation
+docs = [
+  "furo",
+  "sphinx",
+  "sphinx-automodapi",
+]
 
 [project.urls]
 "Bug Tracker" = "https://github.com/duncanmmacleod/requests-scitokens/issues"
