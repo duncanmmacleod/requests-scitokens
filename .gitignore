@@ -19,6 +19,7 @@ __pycache__/
 
 # documentation files to ignore
 /docs/_build/
+/docs/api/
 /docs/reference/
 
 # debian files to ignore
