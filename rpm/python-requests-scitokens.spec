@@ -101,7 +101,7 @@ export PYTHONPATH="%{buildroot}%{python3_sitelib}"
 
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE
-%doc README.md
+%doc README.rst
 %{python3_sitelib}/*
 
 # -- changelog --------------
