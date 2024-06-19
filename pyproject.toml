@@ -1,6 +1,7 @@
 [build-system]
 requires = [
-  "setuptools>=61",
+  "setuptools >= 61",
+  "setuptools-scm >= 7",
   "wheel",
 ]
 build-backend = "setuptools.build_meta"
@@ -84,6 +85,10 @@ source = [
 source = [ "requests_scitokens" ]
 
 [tool.coverage.report]
+omit = [
+  # ignore version file created by setuptools-scm
+  "*/_version.py",
+]
 # print report with one decimal point
 precision = 1
 
