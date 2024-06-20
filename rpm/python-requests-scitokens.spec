@@ -13,7 +13,7 @@ Prefix:    %{_prefix}
 Release:   %{release}%{?dist}
 Source0:   %pypi_source %distname
 Summary:   SciTokens auth plugin for python3-requests
-Url:       https://github.com/duncanmmacleod/requests-scitokens
+Url:       https://git.ligo.org/computing/software/requests-scitokens
 Vendor:    Duncan Macleod <macleoddm@cardiff.ac.uk>
 Version:   %{version}
 

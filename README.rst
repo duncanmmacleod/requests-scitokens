@@ -18,25 +18,30 @@ requests-scitokens
     :target: https://anaconda.org/conda-forge/requests-scitokens/
     :alt: requests-scitokens conda-forge badge
 
+
+.. raw:: html
+
+    <br/>
+
 .. image:: https://img.shields.io/pypi/l/requests-scitokens.svg
     :target: https://choosealicense.com/licenses/apache-2.0/
     :alt: requests-scitokens license badge
 .. image:: https://img.shields.io/pypi/pyversions/requests-scitokens.svg
     :alt: Supported Python versions badge
 
-.. image:: https://github.com/duncanmmacleod/requests-scitokens/actions/workflows/python.yml/badge.svg?branch=main
-    :target: https://github.com/duncanmmacleod/requests-scitokens/actions?query=branch%3Amain
-    :alt: requests-scitokens test workflow badge
-.. image:: https://github.com/duncanmmacleod/requests-scitokens/actions/workflows/packaging.yml/badge.svg?branch=main
-    :target: https://github.com/duncanmmacleod/requests-scitokens/actions?query=branch%3Amain)
-    :alt: requests-scitokens packaging workflow badge
-.. image:: https://codecov.io/gh/duncanmmacleod/requests-scitokens/graph/badge.svg?token=K2d77WxEkn
-    :target: https://codecov.io/gh/duncanmmacleod/requests-scitokens)
-    :alt: requests-scitokens test coverage badge
-.. image:: https://api.codeclimate.com/v1/badges/3f159a42c287914196e9/maintainability
-    :target: https://codeclimate.com/github/duncanmmacleod/requests-scitokens/maintainability)
-    :alt: requests-scitokens codeclimate maintainability badge
+.. raw:: html
+
+    <br/>
+
+.. image:: https://git.ligo.org/computing/software/requests-scitokens/badges/main/pipeline.svg
+    :alt: Build status
+    :target: https://git.ligo.org/computing/software/requests-scitokens/-/pipelines
+.. image:: https://git.ligo.org/computing/software/requests-scitokens/badges/main/coverage.svg
+    :alt: Code coverage
+.. image:: https://readthedocs.org/projects/requests-scitokens/badge/?version=latest
+    :alt: Documentation Status
+    :target: https://requests-scitokens.readthedocs.io/en/latest/?badge=latest
 
 For installation details, see
 
-<https://requests-scitokens.readthedocs.io/en/stable/>
+https://requests-scitokens.readthedocs.io/en/stable/
