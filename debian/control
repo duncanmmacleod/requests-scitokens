@@ -17,7 +17,7 @@ Build-Depends:
  python3-requests-mock,
  python3-scitokens (>= 1.7.4),
  python3-setuptools (>= 61.0.0),
- python3-setuptools-scm (>=3.4.3),
+ python3-setuptools-scm (>= 7.0.0),
  python3-wheel,
 
 # -- python3-requests-scitokens

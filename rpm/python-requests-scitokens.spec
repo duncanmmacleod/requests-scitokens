@@ -23,6 +23,7 @@ Version:   %{version}
 BuildRequires: python3-devel
 BuildRequires: python3dist(pip)
 BuildRequires: python3dist(setuptools)
+BuildRequires: python3dist(setuptools-scm)
 BuildRequires: python3dist(wheel)
 
 # test requirements
@@ -58,7 +59,6 @@ This package provides the Python %{python3_version} library.
 cat > setup.cfg <<EOF
 [metadata]
 name = %{srcname}
-version = %{version}
 author-email = %{packager}
 description = %{summary}
 license = %{license}
@@ -75,7 +75,7 @@ EOF
 %if %{undefined pyproject_wheel}
 cat > setup.py <<EOF
 from setuptools import setup
-setup()
+setup(use_scm_version=True)
 EOF
 %endif
 

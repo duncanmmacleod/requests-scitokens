@@ -6,7 +6,6 @@
 """
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
-__version__ = "0.1.0"
 
 from .auth import HTTPSciTokenAuth
 from .requests import (
@@ -21,3 +20,8 @@ from .sessions import (
     Session,
     SessionMixin,
 )
+
+try:
+    from ._version import version as __version__
+except ModuleNotFoundError:  # development mode
+    __version__ = ''

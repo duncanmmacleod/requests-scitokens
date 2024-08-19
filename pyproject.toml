@@ -62,9 +62,6 @@ docs = [
 [tool.setuptools]
 license-files = [ "LICENSE" ]
 
-[tool.setuptools.dynamic]
-version= { attr = "requests_scitokens.__version__" }
-
 [tool.setuptools.packages.find]
 include = [
   "requests_scitokens*",
