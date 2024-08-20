@@ -46,7 +46,7 @@ for the python3-requests HTTP library.
 This package provides the Python %{python3_version} library.
 %files -n python3-%{srcname}
 %license LICENSE
-%doc README.rst
+%doc README.md
 %{python3_sitelib}/*
 
 # -- build ------------------
