@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "requests-scitokens"
 description = "A requests plugin for SciToken authorisation"
-readme = "README.rst"
+readme = "README.md"
 authors = [
   { name = "Duncan Macleod", email = "macleoddm@cardiff.ac.uk" },
 ]
