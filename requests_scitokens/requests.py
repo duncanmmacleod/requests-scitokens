@@ -57,8 +57,8 @@ def request(
     """
     if auth is None:
         auth = HTTPSciTokenAuth(
-            token=kwargs.get("token"),
-            audience=kwargs.get("audience", default_audience(url)),
+            token=kwargs.pop("token"),
+            audience=kwargs.pop("audience", default_audience(url)),
         )
 
     if not session:  # use module
