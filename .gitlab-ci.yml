@@ -6,6 +6,7 @@ include:
     inputs:
       install_extra: "test"
       code_quality_analyzer: "ruff"
+      run_advanced_sast: true
 
   # -- Debian packaging ---------------
 
