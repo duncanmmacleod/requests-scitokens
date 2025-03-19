@@ -2,9 +2,10 @@ include:
   # -- Python -------------------------
 
   # https://computing.docs.ligo.org/guide/gitlab/components/python/all/
-  - component: $CI_SERVER_FQDN/computing/gitlab/components/python/all@1
+  - component: $CI_SERVER_FQDN/computing/gitlab/components/python/all@2
     inputs:
       install_extra: "test"
+      code_quality_analyzer: "ruff"
 
   # -- Debian packaging ---------------
 
