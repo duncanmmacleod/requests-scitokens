@@ -96,3 +96,38 @@ addopts = "-r a"
 filterwarnings = [
   "error",
 ]
+
+# -- ruff
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "ANN003",  # type annotations for **kwargs
+  "D203",  # blank line before class docstring
+  "D213",  # docstring summary on second line
+  "D413",  # blank line after last section
+  "PLR0913",  # too many arguments
+  "SIM108",  # if-else instead of ternary if
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+  "F401",  # unused-import
+]
+"*/tests/*" = [
+  "ANN",  # type annotations
+  "B904",  # raise from
+  "EM101",  # string literal in exception
+  "PLR2004",  # magic value used in comparison
+  "S101",  # assert
+]
+"docs/*" = [
+  "A",  # builtins
+  "ANN",  # type annotations
+  "D",  # docstrings
+  "INP001",  # implicit namespace package
+]
