@@ -1,9 +1,7 @@
-# -*- python -*-
-# Copyright (C) 2024 Cardiff University
+# Copyright (C) 2024-2025 Cardiff University
 # SPDX-License-Identifier: Apache-2.0
 
-"""Utilities for the `requests-scitokens`.
-"""
+"""Test configuration for `requests-scitokens`."""
 
 __author__ = "Duncan Macleod <duncan.macleod@ligo.org>"
 
@@ -42,8 +40,7 @@ WRITE_SCOPE = "write:{}".format(_SCOPE_PATH)
 
 @pytest.fixture(scope="session")  # one per suite is fine
 def private_key():
-    """Generate a private RSA key with which to sign a token.
-    """
+    """Generate a private RSA key with which to sign a token."""
     return generate_private_key(
         public_exponent=65537,
         key_size=2048,
@@ -53,15 +50,13 @@ def private_key():
 
 @pytest.fixture(scope="session")
 def public_key(private_key):
-    """The public key for the private_key.
-    """
+    """The public key for the private_key."""
     return private_key.public_key()
 
 
 @pytest.fixture(scope="session")
 def public_pem(public_key):
-    """The public_key in PEM format.
-    """
+    """The public_key in PEM format."""
     return public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo,
@@ -75,8 +70,7 @@ def _create_token(
     scope=READ_SCOPE,
     **kwargs
 ):
-    """Create a token.
-    """
+    """Create a token."""
     if key:
         from scitokens.utils.keycache import KeyCache
         keycache = KeyCache.getinstance()
@@ -96,16 +90,14 @@ def _create_token(
 
 
 def _write_token(token, path):
-    """Write a token to a file.
-    """
+    """Write a token to a file."""
     with open(path, "wb") as file:
         file.write(token.serialize(lifetime=86400))
 
 
 @pytest.fixture
 def rtoken(private_key):
-    """A token with the ``READ_SCOPE``.
-    """
+    """A token with the ``READ_SCOPE``."""
     return _create_token(
         key=private_key,
         scope=READ_SCOPE,
@@ -114,8 +106,7 @@ def rtoken(private_key):
 
 @pytest.fixture
 def wtoken(private_key):
-    """A token with the ``WRITE_SCOPE``.
-    """
+    """A token with the ``WRITE_SCOPE``."""
     return _create_token(
         key=private_key,
         aud=WRITE_AUDIENCE,
@@ -125,8 +116,7 @@ def wtoken(private_key):
 
 @pytest.fixture
 def rtoken_path(rtoken, tmp_path):
-    """The path of a file containing the serialised ``READ_SCOPE`` token.
-    """
+    """The path of a file containing the serialised ``READ_SCOPE`` token."""
     token_path = tmp_path / "token.use"
     _write_token(rtoken, token_path)
     return token_path
