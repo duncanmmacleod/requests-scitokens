@@ -327,6 +327,7 @@ class HTTPSciTokenAuth(_AuthBase):
         num_401s = kwargs.pop("num_401s", 0)
         if (
             response.status_code == UNAUTHORIZED
+            and "Authorization" not in response.request.headers
             and num_401s < 1
         ):
             new = self.handle_401(response, **kwargs)
