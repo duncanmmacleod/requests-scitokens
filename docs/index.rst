@@ -46,53 +46,46 @@ requests-scitokens
 Installation
 ============
 
------
-Conda
------
+.. tab-set::
 
-.. code-block:: bash
+    .. tab-item:: Conda
 
-    conda install -c conda-forge requests-scitokens
+        .. code-block:: bash
 
-------------
-Debian Linux
-------------
+            conda install -c conda-forge requests-scitokens
 
-.. code-block:: bash
+    .. tab-item:: Debian Linux
 
-    apt-get install python3-requests-scitokens
+        .. code-block:: bash
 
-See the IGWN Computing Guide software repositories entry for
-`Debian <https://computing.docs.ligo.org/guide/software/debian/>`__
-for instructions on how to configure the required
-IGWN Debian repositories.
+            apt-get install python3-requests-scitokens
 
-----------------
-Enterprise Linux
-----------------
+        See the IGWN Computing Guide software repositories entry for
+        `Debian <https://computing.docs.ligo.org/guide/software/debian/>`__
+        for instructions on how to configure the required
+        IGWN Debian repositories.
 
-.. code-block:: bash
+    .. tab-item:: Enterprise Linux
 
-    dnf install python3-requests-scitokens
+        .. code-block:: bash
 
-See the IGWN Computing Guide software repositories entries for
-`Rocky Linux 8 <https://computing.docs.ligo.org/guide/software/rl8/>`__ or
-`Rocky Linux 9 <https://computing.docs.ligo.org/guide/software/rl9/>`__
-for instructions on how to configure the required IGWN RPM repositories.
+            dnf install python3-requests-scitokens
 
----
-Pip
----
+        See the IGWN Computing Guide software repositories entries for
+        `Rocky Linux 8 <https://computing.docs.ligo.org/guide/software/rl8/>`__ or
+        `Rocky Linux 9 <https://computing.docs.ligo.org/guide/software/rl9/>`__
+        for instructions on how to configure the required IGWN RPM repositories.
 
-.. code-block:: bash
+    .. tab-item:: Pip
 
-    python -m pip install requests-scitokens
+        .. code-block:: bash
+
+            python -m pip install requests-scitokens
 
 ====================================
 ``requests-scitokens`` documentation
 ====================================
 
 .. automodapi:: requests_scitokens
-   :no-inheritance-diagram:
-   :no-heading:
-   :headings: -~
+    :no-heading:
+    :headings: -~
