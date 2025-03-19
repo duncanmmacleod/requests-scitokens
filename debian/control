@@ -12,7 +12,7 @@ Build-Depends:
  dh-python,
  pybuild-plugin-pyproject,
  python3-all,
- python3-pytest (>= 3.9.1),
+ python3-pytest (>= 3.1.0),
  python3-requests (>= 2.20.0),
  python3-requests-mock,
  python3-scitokens (>= 1.7.4),

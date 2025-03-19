@@ -1,9 +1,7 @@
-# -*- python -*-
-# Copyright (C) 2024 Cardiff University
+# Copyright (C) 2024-2025 Cardiff University
 # SPDX-License-Identifier: Apache-2.0
 
-"""Request API for requests-scitokens.
-"""
+"""Request API for requests-scitokens."""
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
 
@@ -15,8 +13,15 @@ from requests_scitokens.auth import HTTPSciTokenAuth
 from requests_scitokens.utils import default_audience
 
 
-@wraps(requests.request)
-def request(method, url, *args, auth=None, session=None, **kwargs):
+@wraps(requests.api.request)
+def request(
+    method,
+    url,
+    *args,
+    auth=None,
+    session=None,
+    **kwargs,
+):
     """Send a SciToken-aware request.
 
     Parameters
@@ -26,6 +31,11 @@ def request(method, url, *args, auth=None, session=None, **kwargs):
 
     url : `str`,
         The URL to request.
+
+    auth : `requests.auth.AuthBase`, `tuple`, optional
+        The auth handler to use for this request.
+        By default a `requests_scitokens.HTTPSciTokenAuth` handler
+        will be attached.
 
     session : `requests.Session`, optional
         The connection session to use, if not given one will be
@@ -38,12 +48,12 @@ def request(method, url, *args, auth=None, session=None, **kwargs):
     Returns
     -------
     resp : `requests.Response`
-        the response object
+        The response object.
 
-    See also
+    See Also
     --------
-    igwn_auth_utils.requests.Session.request
-        for information on how the request is performed
+    requests.Session.request
+        For information on how the request is performed.
     """
     if auth is None:
         auth = HTTPSciTokenAuth(
@@ -57,8 +67,18 @@ def request(method, url, *args, auth=None, session=None, **kwargs):
 
 
 def _request_wrapper_factory(method):
-    """Factor function to wrap a :mod:`requests` HTTP method to use
-    our request function.
+    """Wrap a :mod:`requests` method to use `requests_scitokens.request`.
+
+    Parameters
+    ----------
+    method : `str`
+        The HTTP method to wrap.
+
+    Returns
+    -------
+    func : `callable`
+        A new method wrapping around the equivalent `requests` method
+        but using `requests_scitokens.HTTPSciTokenAuth` by default.
     """
     @wraps(getattr(requests.api, method))
     def _request_wrapper(url, *args, session=None, **kwargs):

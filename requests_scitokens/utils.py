@@ -1,9 +1,7 @@
-# -*- python -*-
-# Copyright (C) 2024 Cardiff University
+# Copyright (C) 2024-2025 Cardiff University
 # SPDX-License-Identifier: Apache-2.0
 
-"""Utilities for requests_scitokens.
-"""
+"""Utilities for requests_scitokens."""
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
 
@@ -21,6 +19,9 @@ def default_audience(url, scheme="https"):
     ----------
     url : `str`
         The URL that will be requested.
+
+    scheme: `str`, optional
+        The default URL scheme to apply.
 
     Returns
     -------
@@ -49,7 +50,7 @@ def default_audience(url, scheme="https"):
 
 
 def serialize_token(token):
-    """Serialise a :class:`~scitokens.SciToken`.
+    """Serialise a `~scitokens.SciToken`.
 
     If ``token`` was parsed from a serialisation, the same serialisation
     will be returned, otherwise the :meth:`~scitokens.SciToken.serialize`

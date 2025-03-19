@@ -1,18 +1,17 @@
-# -*- python -*-
-# Copyright (C) 2024 Cardiff University
+# Copyright (C) 2024-2025 Cardiff University
 # SPDX-License-Identifier: Apache-2.0
 
-"""Auth plugin for SciToken requests.
-"""
+"""Auth plugin for SciToken requests."""
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
+
+from http.server import HTTPStatus
 
 from requests.auth import AuthBase as _AuthBase
 from requests.utils import (
     parse_dict_header,
     parse_list_header,
 )
-
 from scitokens import SciToken
 
 from requests_scitokens.utils import (
@@ -20,11 +19,18 @@ from requests_scitokens.utils import (
     serialize_token,
 )
 
+UNAUTHORIZED = HTTPStatus.UNAUTHORIZED.value
+
 
 def _www_authenticate_bearer_params(response):
     """Return the WWW-Authenticate Bearer response auth-params if found.
 
     See RFC 6750, section 3.
+
+    Parameters
+    ----------
+    response : `requests.Response`
+        The response to parse.
 
     Returns
     -------
@@ -59,12 +65,12 @@ class HTTPSciTokenAuth(_AuthBase):
     ----------
     token : `scitokens.SciToken`, `None`
         The `~scitokens.SciToken` to use for bearer authorisation.
-        Pass `None` to dynamically discover a token for each request.
+        Default (`None`) will dynamically discover a token for each request.
 
-    audience : `str`
+    audience : `str`, optional
         The ``aud`` claim to require when discovering tokens.
 
-    force : `bool`
+    force : `bool`, optional
         If `True`, preemptively discover a token and generate an
         ``Authorization`` header for all requests.
 
@@ -72,17 +78,42 @@ class HTTPSciTokenAuth(_AuthBase):
         authorisation challenge via a 401 ``Unauthorized`` response
         that includes a ``WWW-Authenticate`` header.
     """
+
     def __init__(
         self,
         token=None,
         audience=None,
+        *,
         force=False,
     ):
+        """Create a new `HTTPSciTokenAuth`."""
         self.token = token
         self.audience = audience
         self.force = force
 
+    def __hash__(self):
+        """Return a hash of this object.
+
+        Returns
+        -------
+        hash : `int`
+            The hash of the various attributes.
+        """
+        return hash(self.token) + hash(self.audience) + hash(self.force)
+
     def __eq__(self, other):
+        """Return `True` if ``other`` is the same.
+
+        Parameters
+        ----------
+        other
+            The object to compare to.
+
+        Returns
+        -------
+        notequal : `bool`
+            `True` if other and self are different.
+        """
         return all([
             self.token == getattr(other, "token", None),
             self.audience == getattr(other, "audience", None),
@@ -90,19 +121,36 @@ class HTTPSciTokenAuth(_AuthBase):
         ])
 
     def __ne__(self, other):
+        """Return `True` if ``other`` is different.
+
+        Parameters
+        ----------
+        other
+            The object to compare to.
+
+        Returns
+        -------
+        notequal : `bool`
+            `True` if other and self are different.
+        """
         return not self == other
 
     @staticmethod
     def _auth_header_str(token, auth_scheme="Bearer"):
-        """Serialise a `scitokens.SciToken` and format an Authorization header.
+        """Serialise a `scitokens.SciToken` and return an ``Authorization`` header.
 
         Parameters
         ----------
-        token : `scitokens.SciToken`, `str`, `bytes`
+        token : `scitokens.SciToken`, `str`
             The token to serialize, or an already serialized representation.
 
         auth_scheme : `str`
             The authorisation scheme to use, defaults to ``"Bearer"``.
+
+        Returns
+        -------
+        auth : `str`
+            The value to use for the HTTP Authorization header for this token.
         """
         if not isinstance(token, (str, bytes)):
             token = serialize_token(token)
@@ -111,6 +159,7 @@ class HTTPSciTokenAuth(_AuthBase):
     def find_token(
         self,
         url=None,
+        *,
         error=True,
         find_func=SciToken.discover,
         **discover_kwargs,
@@ -155,16 +204,27 @@ class HTTPSciTokenAuth(_AuthBase):
         except OSError:  # failed to discover token
             if error:
                 raise
-            return None
+        return None
 
     def generate_bearer_header(self, response=None):
         """Generate a bearer token header, possibly based on a response.
+
+        Parameters
+        ----------
+        response : `requests.Response`, optional
+            The HTTP response to handle.
+
+        Returns
+        -------
+        auth : `str` or `None`
+            The value of the HTTP Authorization header to apply, or `None`
+            if not found or needed.
         """
         token = self.token
         error = response is not None or token is True
         if (
             response is not None
-            or token in (None, True)
+            or token in {None, True}
         ):
             # try and find a token
             token = self.find_token(
@@ -175,9 +235,27 @@ class HTTPSciTokenAuth(_AuthBase):
         # if we ended up with a token, generate the header content
         if token:
             return self._auth_header_str(token)
+        return None
 
     def authenticate_bearer(self, response, **kwargs):
         """Re-send a request in response to a Bearer challenge.
+
+        This method attemps to find a token and construct an HTTP
+        Authorization header for the response endpoint.
+        If that is successful, a new request will be sent using the
+        header.
+
+        Parameters
+        ----------
+        response : `requests.Response`
+            The HTTP response to handle.
+
+        kwargs
+            Other keyword arguments are passed to the new request.
+
+        Returns
+        -------
+        response : `requests.Response`
         """
         try:
             auth_header = self.generate_bearer_header(response)
@@ -186,7 +264,7 @@ class HTTPSciTokenAuth(_AuthBase):
             return response
 
         # consume the content so that we can reuse the connection
-        response.content
+        response.content  # noqa: B018
         response.raw.release_conn()
 
         # retry the same request, using the same connection
@@ -198,6 +276,20 @@ class HTTPSciTokenAuth(_AuthBase):
 
     def handle_401(self, response, **kwargs):
         """Handle 401 response.
+
+        Parameters
+        ----------
+        response : `requests.Response`
+            The HTTP response to handle.
+
+        kwargs
+            Other keyword arguments are passed to the new request.
+
+        Returns
+        -------
+        response : `requests.Response`
+            Either the original ``response`` given as input, or a new
+            response to a new request that included ``Authorization``.
         """
         params = _www_authenticate_bearer_params(response)
         if isinstance(params, dict):
@@ -206,10 +298,33 @@ class HTTPSciTokenAuth(_AuthBase):
         return response
 
     def handle_response(self, response, **kwargs):
-        """Attempt to handle a response that asks for Bearer auth.
+        """Handle a response.
+
+        If the response is a 401 (Unauthorized) and this is first attempt,
+        a SciToken will be discovered and attached via an HTTP Authorization
+        header, and the request retried.
+
+        If any other circumstances, the response is returned with no action.
+
+        Parameters
+        ----------
+        response : `requests.Response`
+            The HTTP response to handle.
+
+        kwargs
+            Other keyword arguments are passed to the new request.
+
+        Returns
+        -------
+        response : `requests.Response`
+            Either the original ``response`` given as input, or a new
+            response to a new request that included ``Authorization``.
         """
         num_401s = kwargs.pop("num_401s", 0)
-        if response.status_code == 401 and num_401s < 2:
+        if (
+            response.status_code == UNAUTHORIZED
+            and num_401s < 1
+        ):
             new = self.handle_401(response, **kwargs)
             num_401s += 1
             return self.handle_response(new, num_401s=num_401s, **kwargs)
@@ -218,6 +333,17 @@ class HTTPSciTokenAuth(_AuthBase):
 
     def __call__(self, request):
         """Augment the `Request` ``request`` with an ``Authorization`` header.
+
+        Parameters
+        ----------
+        request : `requests.Request`
+            The request to authorise.
+
+        Returns
+        -------
+        request : `requests.Request`
+            The original request, which may now have an HTTP `Authorization`
+            header attached.
         """
         token = self.token
         if self.force:

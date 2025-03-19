@@ -1,9 +1,7 @@
-# -*- python -*-
-# Copyright (C) 2024 Cardiff University
+# Copyright (C) 2024-2025 Cardiff University
 # SPDX-License-Identifier: Apache-2.0
 
-"""SciToken plugin for Requests.
-"""
+"""SciToken plugin for Requests."""
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
 
@@ -24,4 +22,4 @@ from .sessions import (
 try:
     from ._version import version as __version__
 except ModuleNotFoundError:  # development mode
-    __version__ = ''
+    __version__ = "dev"
