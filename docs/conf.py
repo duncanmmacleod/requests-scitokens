@@ -4,9 +4,6 @@
 # list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-from pathlib import Path
-
-from sphinx.ext.apidoc import main as apidoc_main
 
 # -- Path setup --------------------------------------------------------------
 
@@ -20,12 +17,11 @@ from sphinx.ext.apidoc import main as apidoc_main
 
 from requests_scitokens import __version__ as requests_scitokens_version
 
-
 # -- Project information -----------------------------------------------------
 
-project = 'requests-scitokens'
-copyright = '2024, Cardiff University'
-author = 'Duncan Macleod'
+project = "requests-scitokens"
+copyright = "2024, Cardiff University"
+author = "Duncan Macleod"
 
 # The full version, including alpha/beta/rc tags
 release = requests_scitokens_version
@@ -45,12 +41,12 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -58,19 +54,19 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'furo'
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'monokai'
+pygments_style = "monokai"
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
-default_role = 'obj'
+default_role = "obj"
 
 # -- Extensions --------------------------------------------------------------
 
@@ -89,6 +85,6 @@ numpydoc_show_class_members = False
 automodapi_inherited_members = False
 
 # autodoc
-#autodoc_mock_imports = ['cryptography', 'requests']
-autodoc_default_flags = ['members', 'show-inheritance']
+# autodoc_mock_imports = ['cryptography', 'requests']
+autodoc_default_flags = ["members", "show-inheritance"]
 autosummary_generate = True
