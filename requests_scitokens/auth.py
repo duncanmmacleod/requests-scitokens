@@ -63,9 +63,10 @@ class HTTPSciTokenAuth(_AuthBase):
 
     Parameters
     ----------
-    token : `scitokens.SciToken`, `None`
+    token : `scitokens.SciToken`, `None`, `True`
         The `~scitokens.SciToken` to use for bearer authorisation.
         Default (`None`) will dynamically discover a token for each request.
+        ``token=True`` is an alias for ``token=None, force=True``.
 
     audience : `str`, optional
         The ``aud`` claim to require when discovering tokens.
@@ -84,12 +85,15 @@ class HTTPSciTokenAuth(_AuthBase):
         token=None,
         audience=None,
         *,
-        force=False,
+        force=None,
     ):
         """Create a new `HTTPSciTokenAuth`."""
+        if token is True:
+            token = None
+            force = True
         self.token = token
         self.audience = audience
-        self.force = force
+        self.force = bool(force)
 
     def __hash__(self):
         """Return a hash of this object.
@@ -323,6 +327,7 @@ class HTTPSciTokenAuth(_AuthBase):
         num_401s = kwargs.pop("num_401s", 0)
         if (
             response.status_code == UNAUTHORIZED
+            and "Authorization" not in response.request.headers
             and num_401s < 1
         ):
             new = self.handle_401(response, **kwargs)
