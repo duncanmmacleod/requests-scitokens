@@ -6,34 +6,36 @@ include:
     inputs:
       install_extra: "test"
       code_quality_analyzer: "ruff"
+      run_advanced_sast: true
 
   # -- Debian packaging ---------------
 
   # https://computing.docs.ligo.org/guide/gitlab/components/debian/all/
-  - component: $CI_SERVER_FQDN/computing/gitlab/components/debian/all@1
+  - component: $CI_SERVER_FQDN/computing/gitlab/components/debian/all@2
     inputs:
       needs: [sdist]
       debian_versions:
-        - bullseye-backports
+        - bullseye
         - bookworm
       test_install: &system_test_install >-
         python3-pytest
         python3-pytest-cov
         python3-requests-mock
+        python3-requests-scitokens
       test_script: &system_test_script
-        # run the test suite
         - python3 -m pytest
+            --cov=requests_scitokens
+            --cov-report=xml:$CI_PROJECT_DIR/coverage.xml
             --junit-xml=junit.xml
-            --cov=${CI_PROJECT_NAME/-/_}
             --pyargs
-            ${CI_PROJECT_NAME/-/_}
-        # write a cobertura report
-        - python3 -m coverage xml -o coverage.xml
+            -ra
+            --verbose
+            requests_scitokens.tests
 
   # -- Red Hat packaging --------------
 
   # https://computing.docs.ligo.org/guide/gitlab/components/redhat/all/
-  - component: $CI_SERVER_FQDN/computing/gitlab/components/redhat/all@1
+  - component: $CI_SERVER_FQDN/computing/gitlab/components/redhat/all@2
     inputs:
       needs: [sdist]
       redhat_versions:
@@ -48,18 +50,3 @@ include:
   - component: $CI_SERVER_FQDN/computing/gitlab/components/sphinx/build@1
     inputs:
       requirements: ".[docs]"
-
-# -- customisations
-
-# configure the platform tests to upload the same test/coverage reports
-# as the other Python tests
-
-debian_test:
-  variables:
-    GIT_STRATEGY: none
-  artifacts: !reference [python_test, artifacts]
-
-redhat_test:
-  variables:
-    GIT_STRATEGY: none
-  artifacts: !reference [python_test, artifacts]
