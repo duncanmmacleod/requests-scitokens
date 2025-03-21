@@ -57,7 +57,7 @@ def request(
     """
     if auth is None:
         auth = HTTPSciTokenAuth(
-            token=kwargs.pop("token"),
+            token=kwargs.pop("token", None),
             audience=kwargs.pop("audience", default_audience(url)),
         )
 
