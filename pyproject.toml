@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-  "setuptools >= 61",
-  "setuptools-scm >= 7",
+  "setuptools >=70.0.0",
+  "setuptools-scm >=7",
   "wheel",
 ]
 build-backend = "setuptools.build_meta"
@@ -20,19 +20,19 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
 ]
 
 # requirements
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 dependencies = [
-  "requests >= 2.20.0",
-  "scitokens >= 1.7.4",
+  "requests >=2.32.0",
+  "scitokens >=1.8",
 ]
 
 # dynamic properties set by tools

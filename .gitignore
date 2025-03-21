@@ -23,10 +23,7 @@ __pycache__/
 /docs/reference/
 
 # debian files to ignore
-/debian/.debhelper/
-/debian/*.debhelper.log
-/debian/*.postinst.debhelper
-/debian/*.prerm.debhelper
+/debian/*debhelper*
 /debian/*.substvars
 /debian/*requests-scitokens/
 /debian/files
