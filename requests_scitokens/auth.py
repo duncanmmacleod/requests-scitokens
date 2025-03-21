@@ -5,6 +5,7 @@
 
 __author__ = "Duncan Macleod <macleoddm@cardiff.ac.uk>"
 
+import logging
 from http.server import HTTPStatus
 
 from requests.auth import AuthBase as _AuthBase
@@ -18,6 +19,8 @@ from requests_scitokens.utils import (
     default_audience,
     serialize_token,
 )
+
+log = logging.getLogger(__name__)
 
 UNAUTHORIZED = HTTPStatus.UNAUTHORIZED.value
 
@@ -45,6 +48,7 @@ def _www_authenticate_bearer_params(response):
         return False
 
     for authopt in parse_list_header(wwwauth):
+        log.debug("Parsing WWW-Authenticate header")
         # if header is just 'Bearer', then return empty dict
         if authopt == "Bearer":
             return {}
@@ -263,9 +267,12 @@ class HTTPSciTokenAuth(_AuthBase):
         """
         try:
             auth_header = self.generate_bearer_header(response)
-        except ValueError:
+        except ValueError as exc:
+            log.debug("Failed to generated Authorization header: %s", str(exc))
             # return original response
             return response
+
+        log.debug("Adding header: 'Authorization: %s'", auth_header)
 
         # consume the content so that we can reuse the connection
         response.content  # noqa: B018
@@ -299,6 +306,7 @@ class HTTPSciTokenAuth(_AuthBase):
         if isinstance(params, dict):
             kwargs.update(params)
             return self.authenticate_bearer(response, **kwargs)
+        log.debug("No WWW-Authenticate: Bearer challenge found, returning %s", response)
         return response
 
     def handle_response(self, response, **kwargs):
@@ -330,6 +338,7 @@ class HTTPSciTokenAuth(_AuthBase):
             and "Authorization" not in response.request.headers
             and num_401s < 1
         ):
+            log.debug("%s received, attempting Bearer auth", response)
             new = self.handle_401(response, **kwargs)
             num_401s += 1
             return self.handle_response(new, num_401s=num_401s, **kwargs)
