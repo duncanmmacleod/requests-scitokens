@@ -28,9 +28,9 @@ BuildRequires: python3dist(wheel)
 
 # test requirements
 BuildRequires: python3dist(pytest)
-BuildRequires: python3dist(requests) >= 2.20.0
+BuildRequires: python3dist(requests)
 BuildRequires: python3dist(requests-mock)
-BuildRequires: python3dist(scitokens) >= 1.7.4
+BuildRequires: python3dist(scitokens)
 
 # -- packages ---------------
 
@@ -66,10 +66,10 @@ license_files = LICENSE
 url = %{url}
 [options]
 packages = find:
-python_requires = >=3.6
+python_requires = >=%{python3_version}
 install_requires =
-	requests >= 2.20.0
-	scitokens >= 1.7.4
+	requests
+	scitokens
 EOF
 %endif
 %if %{undefined pyproject_wheel}

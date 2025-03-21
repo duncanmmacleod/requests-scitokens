@@ -12,12 +12,12 @@ Build-Depends:
  dh-python,
  pybuild-plugin-pyproject,
  python3-all,
- python3-pytest (>= 3.1.0),
- python3-requests (>= 2.20.0),
+ python3-pytest,
+ python3-requests,
  python3-requests-mock,
- python3-scitokens (>= 1.7.4),
- python3-setuptools (>= 61.0.0),
- python3-setuptools-scm (>= 7.0.0),
+ python3-scitokens,
+ python3-setuptools,
+ python3-setuptools-scm,
  python3-wheel,
 
 # -- python3-requests-scitokens
@@ -27,8 +27,6 @@ Architecture: all
 Depends:
  ${misc:Depends},
  ${python3:Depends},
- python3-requests,
- python3-scitokens,
 Description: SciTokens plugin for Requests
  requests-scitokens adds optional SciTokens authorisation support
  for the python3-requests HTTP library.
