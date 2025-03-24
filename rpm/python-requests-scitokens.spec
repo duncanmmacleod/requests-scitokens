@@ -1,6 +1,6 @@
 %define srcname requests-scitokens
 %global distname %{lua:name = string.gsub(rpm.expand("%{srcname}"), "[.-]", "_"); print(name)}
-%define version 0.1.0
+%define version 0.2.1
 %define release 1
 
 # -- metadata ---------------
@@ -101,5 +101,9 @@ export PYTHONPATH="%{buildroot}%{python3_sitelib}"
 # -- changelog --------------
 
 %changelog
+* Mon Mar 24 2025 Duncan Macleod <macleoddm@cardiff.ac.uk> - 0.2.1-1
+- Update to 0.2.1
+- Remove version constraints on runtime requirements, use what the distro gives us
+
 * Tue Feb 13 2024 Duncan Macleod <macleoddm@cardiff.ac.uk> - 0.1.0-1
 - first release
